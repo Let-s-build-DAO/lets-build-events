@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { getAuth, onAuthStateChanged, signOut, Auth } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { app } from "@/utils/firebase";
 import { LogOut, LayoutDashboard, Users, Menu, X } from "lucide-react";
 import Link from "next/link";
@@ -17,8 +18,20 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     const firebaseAuth = getAuth(app);
     setAuth(firebaseAuth);
 
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
       if (!user) {
+        router.replace("/admin/login");
+        return;
+      }
+
+      // Check if user is still active
+      const db = getFirestore(app);
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const userData = userDoc.data();
+
+      if (!userData?.isActive) {
+        // Sign out if account is deactivated
+        await signOut(firebaseAuth);
         router.replace("/admin/login");
       }
     });
@@ -29,7 +42,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const handleLogout = async () => {
     if (!auth) return;
     await signOut(auth);
-    router.replace("/admin/login");
+    router.replace("/admin/auth/login");
   };
 
   const navItems = [
@@ -105,7 +118,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="p-4">
             <button
               onClick={handleLogout}
-              className="flex w-full items-center px-4 py-2 text-sm font-medium text-white rounded-full "
+              className="flex w-full items-center px-4 py-3 text-sm font-medium text-white rounded-full bg-[#7B5CFF]"
             >
               <LogOut className="h-5 w-5 mr-3" />
               Logout

@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { app } from "@/utils/firebase";
+import Link from "next/link";
 
 const Login = () => {
   const router = useRouter();
@@ -18,12 +20,27 @@ const Login = () => {
     setError("");
     try {
       const auth = getAuth(app);
-      await signInWithEmailAndPassword(auth, email, password);
+      // Sign in with Firebase auth
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      // Check if user is active in Firestore
+      const db = getFirestore(app);
+      const userDoc = await getDoc(doc(db, "users", userCredential.user.uid));
+      const userData = userDoc.data();
+
+      if (!userData?.isActive) {
+        // Sign out if account is deactivated
+        await signOut(auth);
+        setError("Your account has been deactivated. Please contact the administrator.");
+        return;
+      }
+
       router.replace("/admin/dashboard");
     } catch (err: any) {
       setError(err?.message || "Login failed. Please check your credentials.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -65,12 +82,20 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 rounded-md bg-blue-600 text-white font-semibold text-base shadow-sm transition-colors duration-200 ${
-              loading ? "opacity-60 cursor-not-allowed" : "hover:bg-blue-700"
+            className={`w-full py-2 rounded-full bg-[#7B5CFF] text-white font-semibold text-base shadow-sm transition-colors duration-200 ${
+              loading ? "opacity-60 cursor-not-allowed" : "hover:bg-[#7B5CFF]/90"
             }`}
           >
             {loading ? "Logging in..." : "Login"}
           </button>
+          <div className="text-center mt-4">
+            <Link 
+              href="/admin/auth/forgot-password"
+              className="text-[#7B5CFF] hover:underline text-sm"
+            >
+              Forgot password?
+            </Link>
+          </div>
         </form>
       </div>
     </div>

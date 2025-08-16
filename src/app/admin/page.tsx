@@ -8,7 +8,7 @@ const Page = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/admin/login');
+    router.replace('/admin/auth/login');
   }, [router]);
 
   return null;

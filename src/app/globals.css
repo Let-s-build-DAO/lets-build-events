@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: 'Atyp';
+  src: url('/fonts/AtypDisplayTRIAL-Regular.otf') format('opentype');
+  font-style: normal;
+}
+
+html,
+body {
+  /* background-color: #030303; */
+  /* color: #FBFBFB; */
+  overflow-x: hidden;
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  font-family: 'Atyp', sans-serif;
+}
+
+button {
+  background-color: #7B5CFF;
+}

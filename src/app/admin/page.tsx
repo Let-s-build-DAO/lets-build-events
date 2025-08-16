@@ -1,11 +1,17 @@
-import React from 'react';
+'use client'
 
-const page = () => {
-  return (
-    <div>
-      Hello admin
-    </div>
-  );
+
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+const Page = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/admin/login');
+  }, [router]);
+
+  return null;
 };
 
-export default page;
+export default Page;

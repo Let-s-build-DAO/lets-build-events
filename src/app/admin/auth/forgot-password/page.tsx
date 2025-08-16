@@ -45,7 +45,7 @@ const ForgotPassword = () => {
               Check your email for password reset instructions.
             </div>
             <Link
-              href="/admin/login"
+              href="/admin/auth/login"
               className="text-[#7B5CFF] hover:underline"
             >
               Back to Login

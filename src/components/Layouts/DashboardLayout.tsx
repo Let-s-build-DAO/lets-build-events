@@ -20,7 +20,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
     const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
       if (!user) {
-        router.replace("/admin/login");
+        router.replace("/admin/auth/login");
         return;
       }
 

@@ -45,7 +45,7 @@ const Team = () => {
       setAdmins(adminsList);
     } catch (error) {
       console.error("Error fetching admins:", error);
-      alert("Failed to fetch admins");
+      // alert("Failed to fetch admins");
     } finally {
       setLoading(false);
     }
@@ -89,7 +89,30 @@ const Team = () => {
         isActive: true,
       });
 
-      alert(`Admin added successfully! Password: ${generatedPassword}`);
+      // Send email with credentials
+      try {
+        const emailResponse = await fetch('/api/sendAdminCredentials', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: formData.email,
+            username: formData.username,
+            password: generatedPassword
+          }),
+        });
+
+        if (!emailResponse.ok) {
+          throw new Error('Failed to send credentials email');
+        }
+
+        alert('Admin added successfully! Credentials have been sent to their email.');
+      } catch (emailError) {
+        console.error('Error sending credentials email:', emailError);
+        alert('Admin added successfully, but failed to send credentials email. Please contact the admin.');
+      }
+
       setFormData({ username: "", email: "", role: "admin" });
       setShowAddForm(false);
       fetchAdmins();

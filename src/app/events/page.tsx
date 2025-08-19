@@ -132,7 +132,7 @@ const EventsPage: React.FC = () => {
     
     if (layout === 'list') {
       return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+        <div className="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
           <div className="flex">
             {/* Event Banner */}
             {event.bannerUrl && (
@@ -228,7 +228,7 @@ const EventsPage: React.FC = () => {
 
     // Grid layout
     return (
-      <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+      <div className=" rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
         {/* Event Banner */}
         {event.bannerUrl && (
           <div className="h-48 bg-gray-200 relative">
@@ -317,7 +317,7 @@ const EventsPage: React.FC = () => {
   if (loading) {
     return (
       <MainLayout>
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#7B5CFF] mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading events...</p>
@@ -329,7 +329,7 @@ const EventsPage: React.FC = () => {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gray-50">
+      <div className="mt-20 ">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="mb-8">
@@ -342,7 +342,7 @@ const EventsPage: React.FC = () => {
           </div>
 
           {/* Search and Filters */}
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+          <div className="rounded-lg shadow-sm p-6 mb-8">
             <div className="flex flex-col lg:flex-row gap-4">
               {/* Search */}
               <div className="flex-1">

@@ -1,12 +1,14 @@
-import React from 'react';
+import React from "react";
+import HeaderNav from "../HeaderNav";
+import Footer from "../Footer";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
-      <header>
-        <h1>Main Layout</h1>
-      </header>
+      <HeaderNav />
+
       <main>{children}</main>
+      <Footer />
     </div>
   );
 };

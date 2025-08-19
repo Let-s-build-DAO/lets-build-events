@@ -8,11 +8,10 @@
 
 html,
 body {
-  /* background-color: #030303; */
-  /* color: #FBFBFB; */
+  /* background-color: #030303;
+  color: #FBFBFB !important; */
   overflow-x: hidden;
   /* max-width: 1280px; */
   margin: 0 auto;
   font-family: 'Atyp', sans-serif;
 }
-

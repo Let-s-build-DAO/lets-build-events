@@ -1,200 +1,287 @@
 "use client";
 
-import DashboardLayout from "@/components/Layouts/DashboardLayout";
-import { Event } from "@/types/event";
-import {
-  collection,
-  getDocs,
-  addDoc,
-  query,
-  orderBy,
-  doc,
-  updateDoc,
-  getFirestore,
-} from "firebase/firestore";
-import { Calendar, MapPin, Plus, Users, ImagePlus } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import EventFormModal from "@/components/events/EventFormModal";
 import EventStatsModal from "@/components/events/EventStatsModal";
-import { app } from "@/utils/firebase";
+import { Event } from "@/types/event";
+import { getAllEvents, deleteEvent, updateEventStats } from "@/utils/eventService";
+import { Calendar, MapPin, Users, Edit, Trash2, Plus, BarChart3 } from "lucide-react";
+import DashboardLayout from "@/components/Layouts/DashboardLayout";
 
-const db = getFirestore(app);
-
-const DashboardPage = () => {
+const EventsPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [statsEvent, setStatsEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchEvents = async () => {
+  // Load events on component mount
+  useEffect(() => {
+    loadEvents();
+  }, []);
+
+  const loadEvents = async () => {
     try {
-      const eventsRef = collection(db, "events");
-      const q = query(eventsRef, orderBy("startDate", "desc"));
-      const querySnapshot = await getDocs(q);
-      const eventsData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as Event[];
+      setLoading(true);
+      const eventsData = await getAllEvents();
       setEvents(eventsData);
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.error("Error loading events:", error);
+      alert("Failed to load events");
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
+  const handleCreateEvent = () => {
+    setEditingEvent(null);
+    setIsModalOpen(true);
+  };
 
-  const handleCreateEvent = async (eventData: Partial<Event>) => {
+  const handleEditEvent = (event: Event) => {
+    setEditingEvent(event);
+    setIsModalOpen(true);
+  };
+
+  const handleAddStats = (event: Event) => {
+    setStatsEvent(event);
+    setIsStatsModalOpen(true);
+  };
+
+  const handleStatsSubmit = async (eventId: string, data: { stats: Event['stats'], gallery: string[], albumUrl?: string }) => {
     try {
-      const eventsRef = collection(db, "events");
-      await addDoc(eventsRef, {
-        ...eventData,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-      fetchEvents();
+      await updateEventStats(eventId, data.stats, data.gallery, data.albumUrl);
+      await loadEvents(); // Refresh the list
+      alert("Event stats updated successfully!");
     } catch (error) {
-      console.error("Error creating event:", error);
-      throw error;
+      console.error("Error updating event stats:", error);
+      alert("Failed to update event stats");
     }
   };
 
-  const handleUpdateEventStats = async (
-    eventId: string,
-    data: { stats: Event["stats"]; gallery: string[] }
-  ) => {
-    try {
-      const eventRef = doc(db, "events", eventId);
-      await updateDoc(eventRef, {
-        stats: data.stats,
-        gallery: data.gallery,
-        updatedAt: new Date(),
-      });
-      fetchEvents();
-    } catch (error) {
-      console.error("Error updating event stats:", error);
-      throw error;
+  const handleDeleteEvent = async (eventId: string) => {
+    if (window.confirm("Are you sure you want to delete this event?")) {
+      try {
+        await deleteEvent(eventId);
+        await loadEvents(); // Refresh the list
+        alert("Event deleted successfully");
+      } catch (error) {
+        console.error("Error deleting event:", error);
+        alert("Failed to delete event");
+      }
     }
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setEditingEvent(null);
+  };
+
+  const handleStatsModalClose = () => {
+    setIsStatsModalOpen(false);
+    setStatsEvent(null);
+  };
+
+  const handleEventSubmit = async () => {
+    // Refresh events list after successful submit
+    await loadEvents();
+  };
+
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
   };
 
   const isEventPast = (event: Event) => {
-    return new Date(event.endDate) < new Date();
+    const now = new Date();
+    return event.endDate ? event.endDate < now : event.startDate < now;
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#7B5CFF] mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading events...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <DashboardLayout>
-      <div className="px-6 py-4">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Events Dashboard</h1>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 text-white rounded-full 
-            bg-[#7B5CFF]"
-          >
-            <Plus size={20} />
-            Create Event
-          </button>
-        </div>
+      <div className="min-h-screen">
+        <div className="container mx-auto px-4 py-8">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Events Management
+              </h1>
+              <p className="text-gray-600 mt-2">
+                Create and manage your events
+              </p>
+            </div>
+            <button
+              onClick={handleCreateEvent}
+              className="bg-[#7B5CFF] text-white px-6 py-3 rounded-full flex items-center gap-2 hover:bg-[#6B4AEF] transition-colors"
+            >
+              <Plus className="w-5 h-5" />
+              Create Event
+            </button>
+          </div>
 
-        {loading ? (
-          <div className="text-center py-8">Loading events...</div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map((event) => (
-              <div
-                key={event.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
+          {/* Events Grid */}
+          {events.length === 0 ? (
+            <div className="text-center py-12">
+              <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No events yet
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Create your first event to get started
+              </p>
+              <button
+                onClick={handleCreateEvent}
+                className="bg-[#7B5CFF] text-white px-6 py-3 rounded-full hover:bg-[#6B4AEF] transition-colors"
               >
-                {event.bannerUrl && (
-                  <img
-                    src={event.bannerUrl}
-                    alt={event.title}
-                    className="w-full h-48 object-cover"
-                  />
-                )}
-                <div className="p-4">
-                  <div className="inline-block px-2 py-1 mb-2 text-sm bg-blue-100 text-blue-800 rounded">
-                    {event.category}
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
-                  <div className="space-y-2 text-gray-600">
-                    <div className="flex items-center gap-2">
-                      <Calendar size={16} />
-                      <span>
-                        {new Date(event.startDate).toLocaleDateString()}
-                      </span>
+                Create Your First Event
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {events.map((event) => (
+                <div
+                  key={event.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  {/* Event Banner */}
+                  {event.bannerUrl && (
+                    <div className="h-48 bg-gray-200">
+                      <img
+                        src={event.bannerUrl}
+                        alt={event.title}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin size={16} />
-                      <span>
-                        {event.location.type === "virtual"
-                          ? "Virtual Event"
-                          : event.location.details}
-                      </span>
-                    </div>
-                    {event.stats?.attendees && (
+                  )}
+
+                  {/* Event Content */}
+                  <div className="p-6">
+                    <div className="flex justify-between items-start mb-3">
                       <div className="flex items-center gap-2">
-                        <Users size={16} />
-                        <span>{event.stats.attendees} attendees</span>
+                        <span className="inline-block bg-[#7B5CFF] text-white text-xs px-2 py-1 rounded-full uppercase tracking-wide">
+                          {event.category}
+                        </span>
+                        {isEventPast(event) && (
+                          <span className="inline-block bg-gray-500 text-white text-xs px-2 py-1 rounded-full">
+                            Past Event
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleEditEvent(event)}
+                          className="text-gray-600 hover:text-[#7B5CFF] transition-colors"
+                          title="Edit Event"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        {isEventPast(event) && (
+                          <button
+                            onClick={() => handleAddStats(event)}
+                            className="text-gray-600 hover:text-green-600 transition-colors"
+                            title="Add Event Stats"
+                          >
+                            <BarChart3 className="w-4 h-4" />
+                          </button>
+                        )}
+                        <button
+                          onClick={() => handleDeleteEvent(event.id)}
+                          className="text-gray-600 hover:text-red-500 transition-colors"
+                          title="Delete Event"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                      {event.title}
+                    </h3>
+
+                    <div className="space-y-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        <span>{formatDate(event.startDate)}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4" />
+                        <span className="line-clamp-1">
+                          {event.location.details}
+                        </span>
+                      </div>
+                      {event.stats?.attendees && (
+                        <div className="flex items-center gap-2">
+                          <Users className="w-4 h-4" />
+                          <span>{event.stats.attendees} attendees</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Tags */}
+                    {event.tags && event.tags.length > 0 && (
+                      <div className="mt-3 flex flex-wrap gap-1">
+                        {event.tags.slice(0, 3).map((tag, index) => (
+                          <span
+                            key={index}
+                            className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                        {event.tags.length > 3 && (
+                          <span className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                            +{event.tags.length - 3} more
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {event.tags.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  {isEventPast(event) && (
-                    <div className="mt-4 border-t pt-4">
-                      <button
-                        onClick={() => {
-                          setSelectedEvent(event);
-                          setIsStatsModalOpen(true);
-                        }}
-                        className="flex items-center gap-2 px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700"
-                      >
-                        <ImagePlus size={16} />
-                        {event.stats
-                          ? "Update Stats & Gallery"
-                          : "Add Stats & Gallery"}
-                      </button>
-                    </div>
-                  )}
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
 
-        <EventFormModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onSubmit={handleCreateEvent}
-        />
-
-        {selectedEvent && (
-          <EventStatsModal
-            isOpen={isStatsModalOpen}
-            onClose={() => {
-              setIsStatsModalOpen(false);
-              setSelectedEvent(null);
-            }}
-            onSubmit={handleUpdateEventStats}
-            event={selectedEvent}
+          {/* Event Form Modal */}
+          <EventFormModal
+            isOpen={isModalOpen}
+            onClose={handleModalClose}
+            onSubmit={handleEventSubmit}
+            initialData={editingEvent || undefined}
+            mode={editingEvent ? "edit" : "create"}
           />
-        )}
+
+          {/* Event Stats Modal */}
+          {statsEvent && (
+            <EventStatsModal
+              isOpen={isStatsModalOpen}
+              onClose={handleStatsModalClose}
+              onSubmit={handleStatsSubmit}
+              event={statsEvent}
+            />
+          )}
+        </div>
       </div>
     </DashboardLayout>
   );
 };
 
-export default DashboardPage;
+export default EventsPage;

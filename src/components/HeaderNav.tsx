@@ -66,22 +66,20 @@ const HeaderNav = () => {
             </Link>
           </p>
           <p className="my-3">
-            <Link href="/#about" className="hover:text-[#8E0EB9]">
-              About
+            <Link href="/events" className="hover:text-[#8E0EB9]">
+              Events
             </Link>
           </p>
           <p className="my-3">
-            <Link href="/#projects" className="hover:text-[#8E0EB9]">
-              Projects
-            </Link>
-          </p>
-          <p className="my-3">
-            <Link href="/#team" className="hover:text-[#8E0EB9]">
+            <Link
+              href="https://www.labs.lbdao.xyz/"
+              className="hover:text-[#8E0EB9]"
+            >
               Team
             </Link>
           </p>
 
-          <Link href={"/#contact"}>
+          <Link href={"mailto:hello@lbdao.xyz"}>
             <button className="rounded-full text-[#FBFBFB] my-3 py-2 px-6 border border-[#E5DEFF] bg-[#8E0EB9]">
               Contact Us
             </button>

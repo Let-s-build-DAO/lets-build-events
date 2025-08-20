@@ -136,7 +136,6 @@ export const getEventsByCategory = async (category: Event['category']): Promise<
   }
 };
 
-// Get a single event by ID
 export const getEventById = async (eventId: string): Promise<Event | null> => {
   try {
     const eventRef = doc(db, 'events', eventId);

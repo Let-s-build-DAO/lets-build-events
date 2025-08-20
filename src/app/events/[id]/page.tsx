@@ -10,6 +10,7 @@ import { IoLocationSharp } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaMap } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
+import { getEventById } from "@/utils/eventService";
 
 // Dummy data for testing
 const getDummyEvent = (id: string): Event => ({
@@ -107,16 +108,14 @@ const EventPage = () => {
     const fetchEvent = async () => {
       try {
         setLoading(true);
-
-        // We'll uncomment this when we want to actually connect it to the real firebase
-        // if (id) {
-        //   const eventData = await getEventById(id as string);
-        //   if (eventData) {
-        //     setEvent(eventData);
-        //   } else {
-        //     setError('Event not found');
-        //   }
-        // }
+        if (id) {
+          const eventData = await getEventById(id as string);
+          if (eventData) {
+            setEvent(eventData);
+          } else {
+            setError("Event not found");
+          }
+        }
 
         if (id) setEvent(getDummyEvent(id as string));
       } catch (err) {
@@ -185,16 +184,6 @@ const EventPage = () => {
       </Head>
 
       <div className="min-h-screen bg-white">
-        <div className="container mx-auto px-4 pt-6">
-          <Link
-            href="/events"
-            className="flex items-center text-purple-800 hover:text-purple-600 transition-colors"
-          >
-            <HiArrowLeft className="w-5 h-5 mr-1" />
-            Back to Events
-          </Link>
-        </div>
-
         <div className="relative h-[30rem] w-full overflow-hidden mt-4">
           <img
             src={event.bannerUrl}

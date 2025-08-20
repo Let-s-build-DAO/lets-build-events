@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
@@ -21,7 +23,7 @@ const HeaderNav = () => {
         scrolled ? "backdrop-blur-md shadow-md" : ""
       }`}
     >
-      <div className="flex justify-between items-center px-6 md:px-10 py-4">
+      <div className="flex justify-between items-center px-6 md:px-10 py-2">
         <img className="w-10" src="/images/new-logo.png" alt="Logo" />
 
         {/* Hamburger menu for small screens */}

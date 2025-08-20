@@ -59,7 +59,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-[#7B5CFF]/10">
+    <div className="flex h-screen bg-[#8E0EB9]/10">
       {/* Mobile header */}
       <div className="fixed top-0 left-0 right-0 h-16 bg-white shadow-sm lg:hidden z-30">
         <div className="flex items-center justify-between px-4 h-full">
@@ -105,7 +105,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center px-4 py-3 my-2 text-sm font-medium rounded-full transition-colors ${
                     isActive
-                      ? "bg-[#7B5CFF]/20 text-[#7B5CFF]"
+                      ? "bg-[#8E0EB9]/20 text-[#8E0EB9]"
                       : "text-gray-600 hover:bg-gray-50"
                   }`}
                 >
@@ -118,7 +118,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="p-4">
             <button
               onClick={handleLogout}
-              className="flex w-full items-center px-4 py-3 text-sm font-medium text-white rounded-full bg-[#7B5CFF]"
+              className="flex w-full items-center px-4 py-3 text-sm font-medium text-white rounded-full bg-[#8E0EB9]"
             >
               <LogOut className="h-5 w-5 mr-3" />
               Logout

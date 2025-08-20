@@ -5,12 +5,11 @@ const Footer = () => {
   return (
     <footer className='m-10'>
       <div className='text-center'>
-        <p className='text-[#C4C4C4] mb-6'>Quick Links</p>
+        <p className='mb-6'>Quick Links</p>
         <div className='flex lg:w-80 mx-auto justify-between'>
           <p><Link href='/'>Home</Link></p>
-          <p><Link href='https://lbdao.xyz/'> DAO </Link></p>
-          <p><Link href="https://academy.lbdao.xyz/">Academy</Link> </p>
-          <p><Link href="https://lazy.lbdao.xyz/">Lazy NFT</Link></p>
+          <p><Link href='/events'> Events </Link></p>
+          <p><Link href="https://labs.lbdao.xyz/">Team</Link> </p>
         </div>
       </div>
       <div className='lg:flex justify-between my-8'>

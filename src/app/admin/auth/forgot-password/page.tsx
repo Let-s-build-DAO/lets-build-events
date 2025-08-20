@@ -30,7 +30,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#7B5CFF]/10">
+    <div className="min-h-screen flex items-center justify-center bg-[#8E0EB9]/10">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold mb-2">Reset Password</h1>
@@ -46,7 +46,7 @@ const ForgotPassword = () => {
             </div>
             <Link
               href="/admin/auth/login"
-              className="text-[#7B5CFF] hover:underline"
+              className="text-[#8E0EB9] hover:underline"
             >
               Back to Login
             </Link>
@@ -65,7 +65,7 @@ const ForgotPassword = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7B5CFF] focus:border-transparent"
+                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
                 placeholder="Enter your email"
                 required
               />
@@ -81,7 +81,7 @@ const ForgotPassword = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2 px-4 bg-[#7B5CFF] text-white rounded-full hover:bg-[#7B5CFF]/90 transition-colors disabled:opacity-50"
+                className="w-full py-2 px-4 bg-[#8E0EB9] text-white rounded-full hover:bg-[#8E0EB9]/90 transition-colors disabled:opacity-50"
               >
                 {loading ? "Sending..." : "Reset Password"}
               </button>
@@ -89,7 +89,7 @@ const ForgotPassword = () => {
               <div className="text-center">
                 <Link
                   href="/admin/auth/login"
-                  className="text-[#7B5CFF] text-sm hover:underline"
+                  className="text-[#8E0EB9] text-sm hover:underline"
                 >
                   Back to Login
                 </Link>

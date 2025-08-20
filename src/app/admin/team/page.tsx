@@ -153,7 +153,7 @@ const Team = () => {
           <h1 className="text-2xl lg:text-4xl font-bold">Team Management</h1>
           <button
             onClick={() => setShowAddForm(true)}
-            className="px-4 py-2 bg-[#7B5CFF] text-white rounded-full hover:bg-[#7B5CFF]/90 transition-colors"
+            className="px-4 py-2 bg-[#8E0EB9] text-white rounded-full hover:bg-[#8E0EB9]/90 transition-colors"
           >
             Add New Admin
           </button>
@@ -186,7 +186,7 @@ const Team = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, username: e.target.value })
                   }
-                  className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7B5CFF]"
+                  className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8E0EB9]"
                   placeholder="Enter username"
                   required
                 />
@@ -202,7 +202,7 @@ const Team = () => {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7B5CFF]"
+                  className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8E0EB9]"
                   placeholder="Enter email"
                   required
                 />
@@ -217,7 +217,7 @@ const Team = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 bg-[#7B5CFF] text-white px-6 py-3 rounded-md hover:bg-[#7B5CFF]/90 transition-colors disabled:opacity-50"
+                  className="flex-1 bg-[#8E0EB9] text-white px-6 py-3 rounded-md hover:bg-[#8E0EB9]/90 transition-colors disabled:opacity-50"
                 >
                   {loading ? "Adding..." : "Add Admin"}
                 </button>
@@ -277,7 +277,7 @@ const Team = () => {
                     <tr key={admin.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="h-10 w-10 rounded-full bg-[#7B5CFF] flex items-center justify-center">
+                          <div className="h-10 w-10 rounded-full bg-[#8E0EB9] flex items-center justify-center">
                             <span className="text-white font-semibold">
                               {admin.username?.charAt(0).toUpperCase()}
                             </span>
@@ -296,7 +296,7 @@ const Team = () => {
                         {admin.email}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-[#7B5CFF]/20 text-[#7B5CFF]">
+                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-[#8E0EB9]/20 text-[#8E0EB9]">
                           {admin.role}
                         </span>
                       </td>

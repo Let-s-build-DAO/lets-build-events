@@ -210,7 +210,7 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
             <div className="mb-4">
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
-                  className="bg-[#7B5CFF] h-2 rounded-full animate-pulse"
+                  className="bg-[#8E0EB9] h-2 rounded-full animate-pulse"
                   style={{ width: "100%" }}
                 ></div>
               </div>
@@ -225,7 +225,7 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
                 <button
                   type="button"
                   onClick={addStat}
-                  className="flex items-center gap-1 text-[#7B5CFF] text-sm"
+                  className="flex items-center gap-1 text-[#8E0EB9] text-sm"
                 >
                   <Plus size={16} />
                   Add Stat
@@ -311,7 +311,7 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
                         setImageUrls([...imageUrls, newImageUrl.trim()]);
                         setNewImageUrl("");
                       }}
-                      className="px-4 py-2 bg-[#7B5CFF] text-white rounded"
+                      className="px-4 py-2 bg-[#8E0EB9] text-white rounded"
                       disabled={!newImageUrl.trim()}
                     >
                       Add
@@ -360,14 +360,14 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 border border-[#7B5CFF] rounded-full"
+                className="px-4 py-2 border border-[#8E0EB9] rounded-full"
                 disabled={loading}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-[#7B5CFF] text-white rounded-full disabled:opacity-50"
+                className="px-4 py-2 bg-[#8E0EB9] text-white rounded-full disabled:opacity-50"
                 disabled={loading || uploading}
               >
                 {loading ? "Saving..." : "Save Stats & Gallery"}

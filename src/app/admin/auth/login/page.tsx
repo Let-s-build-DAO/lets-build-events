@@ -82,8 +82,8 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 rounded-full bg-[#7B5CFF] text-white font-semibold text-base shadow-sm transition-colors duration-200 ${
-              loading ? "opacity-60 cursor-not-allowed" : "hover:bg-[#7B5CFF]/90"
+            className={`w-full py-2 rounded-full bg-[#8E0EB9] text-white font-semibold text-base shadow-sm transition-colors duration-200 ${
+              loading ? "opacity-60 cursor-not-allowed" : "hover:bg-[#8E0EB9]/90"
             }`}
           >
             {loading ? "Logging in..." : "Login"}
@@ -91,7 +91,7 @@ const Login = () => {
           <div className="text-center mt-4">
             <Link 
               href="/admin/auth/forgot-password"
-              className="text-[#7B5CFF] hover:underline text-sm"
+              className="text-[#8E0EB9] hover:underline text-sm"
             >
               Forgot password?
             </Link>

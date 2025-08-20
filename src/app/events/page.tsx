@@ -149,7 +149,7 @@ const EventsPage: React.FC = () => {
             <div className="flex-1 p-6">
               <div className="flex justify-between items-start mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="inline-block bg-[#7B5CFF] text-white text-xs px-2 py-1 rounded-full uppercase tracking-wide">
+                  <span className="inline-block bg-[#8E0EB9] text-white text-xs px-2 py-1 rounded-full uppercase tracking-wide">
                     {event.category}
                   </span>
                   <span className={`inline-block text-white text-xs px-2 py-1 rounded-full ${getStatusColor(status)}`}>
@@ -214,7 +214,7 @@ const EventsPage: React.FC = () => {
                   href={event.registrationLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#7B5CFF] text-white px-4 py-2 rounded-full hover:bg-[#6B4AEF] transition-colors text-sm"
+                  className="inline-flex items-center gap-2 bg-[#8E0EB9] text-white px-4 py-2 rounded-full hover:bg-[#6B4AEF] transition-colors text-sm"
                 >
                   Register Now
                   <ExternalLink className="w-4 h-4" />
@@ -248,7 +248,7 @@ const EventsPage: React.FC = () => {
         {/* Event Content */}
         <div className="p-6">
           <div className="flex justify-between items-start mb-3">
-            <span className="inline-block bg-[#7B5CFF] text-white text-xs px-2 py-1 rounded-full uppercase tracking-wide">
+            <span className="inline-block bg-[#8E0EB9] text-white text-xs px-2 py-1 rounded-full uppercase tracking-wide">
               {event.category}
             </span>
           </div>
@@ -303,7 +303,7 @@ const EventsPage: React.FC = () => {
               href={event.registrationLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#7B5CFF] text-white px-4 py-2 rounded-full hover:bg-[#6B4AEF] transition-colors text-sm"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#8E0EB9] text-white px-4 py-2 rounded-full hover:bg-[#6B4AEF] transition-colors text-sm"
             >
               Register Now
               <ExternalLink className="w-4 h-4" />
@@ -319,7 +319,7 @@ const EventsPage: React.FC = () => {
       <MainLayout>
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#7B5CFF] mx-auto"></div>
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#8E0EB9] mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading events...</p>
           </div>
         </div>
@@ -353,7 +353,7 @@ const EventsPage: React.FC = () => {
                     placeholder="Search events by title, description, location, or tags..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7B5CFF] focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
                   />
                 </div>
               </div>
@@ -362,13 +362,13 @@ const EventsPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setLayout('grid')}
-                  className={`p-2 rounded-lg ${layout === 'grid' ? 'bg-[#7B5CFF] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                  className={`p-2 rounded-lg ${layout === 'grid' ? 'bg-[#8E0EB9] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                 >
                   <Grid3X3 className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => setLayout('list')}
-                  className={`p-2 rounded-lg ${layout === 'list' ? 'bg-[#7B5CFF] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                  className={`p-2 rounded-lg ${layout === 'list' ? 'bg-[#8E0EB9] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                 >
                   <List className="w-5 h-5" />
                 </button>
@@ -396,7 +396,7 @@ const EventsPage: React.FC = () => {
                     <select
                       value={categoryFilter}
                       onChange={(e) => setCategoryFilter(e.target.value as FilterType)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7B5CFF] focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
                     >
                       <option value="all">All Categories</option>
                       <option value="conference">Conference</option>
@@ -415,7 +415,7 @@ const EventsPage: React.FC = () => {
                     <select
                       value={timeFilter}
                       onChange={(e) => setTimeFilter(e.target.value as TimeFilter)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7B5CFF] focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
                     >
                       <option value="all">All Events</option>
                       <option value="upcoming">Upcoming</option>
@@ -440,7 +440,7 @@ const EventsPage: React.FC = () => {
                   setCategoryFilter('all');
                   setTimeFilter('all');
                 }}
-                className="text-[#7B5CFF] hover:text-[#6B4AEF] text-sm"
+                className="text-[#8E0EB9] hover:text-[#6B4AEF] text-sm"
               >
                 Clear all filters
               </button>

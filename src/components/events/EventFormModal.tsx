@@ -195,7 +195,7 @@ const EventFormModal: React.FC<EventFormModalProps> = ({
             <div className="mb-4">
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div 
-                  className="bg-[#7B5CFF] h-2 rounded-full transition-all duration-300" 
+                  className="bg-[#8E0EB9] h-2 rounded-full transition-all duration-300" 
                   style={{ width: `${uploadProgress}%` }}
                 ></div>
               </div>
@@ -383,14 +383,14 @@ const EventFormModal: React.FC<EventFormModalProps> = ({
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-4 py-2 border border-[#7B5CFF] rounded-full"
+                className="px-4 py-2 border border-[#8E0EB9] rounded-full"
                 disabled={loading}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-[#7B5CFF] text-white rounded-full disabled:opacity-50"
+                className="px-4 py-2 bg-[#8E0EB9] text-white rounded-full disabled:opacity-50"
                 disabled={loading}
               >
                 {loading ? `${mode === 'edit' ? 'Updating' : 'Creating'}...` : (mode === 'edit' ? 'Update Event' : 'Create Event')}

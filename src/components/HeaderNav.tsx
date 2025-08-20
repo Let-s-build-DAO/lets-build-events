@@ -18,7 +18,7 @@ const HeaderNav = () => {
   return (
     <header
       className={`fixed top-0 w-full left-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-[#030303]/90 backdrop-blur-md shadow-md" : ""
+        scrolled ? "backdrop-blur-md shadow-md" : ""
       }`}
     >
       <div className="flex justify-between items-center px-6 md:px-10 py-4">
@@ -26,7 +26,7 @@ const HeaderNav = () => {
 
         {/* Hamburger menu for small screens */}
         <button
-          className="md:hidden text-[#7B5CFF]"
+          className="md:hidden text-[#8E0EB9]"
           onClick={() => setIsOpen(!isOpen)}
         >
           <svg
@@ -58,31 +58,31 @@ const HeaderNav = () => {
         <nav
           className={`${
             isOpen ? "block" : "hidden"
-          } absolute md:static top-[80px] left-0 w-full md:w-auto md:flex bg-[#7B5CFF] md:bg-transparent px-6 md:px-0 py-4 md:py-0 flex-col md:flex-row gap-6 md:gap-8 text-[#EBEBEB] items-start md:items-center`}
+          } absolute md:static top-[80px] left-0 w-full md:w-auto md:flex bg-[#8E0EB9] md:bg-transparent px-6 md:px-0 py-4 md:py-0 flex-col md:flex-row gap-6 md:gap-8 text-black items-start md:items-center`}
         >
           <p className="my-3">
-            <Link href="/" className="hover:text-[#7B5CFF]">
+            <Link href="/" className="hover:text-[#8E0EB9]">
               Home
             </Link>
           </p>
           <p className="my-3">
-            <Link href="/#about" className="hover:text-[#7B5CFF]">
+            <Link href="/#about" className="hover:text-[#8E0EB9]">
               About
             </Link>
           </p>
           <p className="my-3">
-            <Link href="/#projects" className="hover:text-[#7B5CFF]">
+            <Link href="/#projects" className="hover:text-[#8E0EB9]">
               Projects
             </Link>
           </p>
           <p className="my-3">
-            <Link href="/#team" className="hover:text-[#7B5CFF]">
+            <Link href="/#team" className="hover:text-[#8E0EB9]">
               Team
             </Link>
           </p>
 
           <Link href={"/#contact"}>
-            <button className="rounded-full text-[#FBFBFB] my-3 py-2 px-6 border border-[#E5DEFF] bg-[#7B5CFF]">
+            <button className="rounded-full text-[#FBFBFB] my-3 py-2 px-6 border border-[#E5DEFF] bg-[#8E0EB9]">
               Contact Us
             </button>
           </Link>

@@ -108,7 +108,7 @@ const EventsPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#7B5CFF] mx-auto"></div>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#8E0EB9] mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading events...</p>
         </div>
       </div>
@@ -131,7 +131,7 @@ const EventsPage: React.FC = () => {
             </div>
             <button
               onClick={handleCreateEvent}
-              className="bg-[#7B5CFF] text-white px-6 py-3 rounded-full flex items-center gap-2 hover:bg-[#6B4AEF] transition-colors"
+              className="bg-[#8E0EB9] text-white px-6 py-3 rounded-full flex items-center gap-2 hover:bg-[#6B4AEF] transition-colors"
             >
               <Plus className="w-5 h-5" />
               Create Event
@@ -150,7 +150,7 @@ const EventsPage: React.FC = () => {
               </p>
               <button
                 onClick={handleCreateEvent}
-                className="bg-[#7B5CFF] text-white px-6 py-3 rounded-full hover:bg-[#6B4AEF] transition-colors"
+                className="bg-[#8E0EB9] text-white px-6 py-3 rounded-full hover:bg-[#6B4AEF] transition-colors"
               >
                 Create Your First Event
               </button>
@@ -177,7 +177,7 @@ const EventsPage: React.FC = () => {
                   <div className="p-6">
                     <div className="flex justify-between items-start mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="inline-block bg-[#7B5CFF] text-white text-xs px-2 py-1 rounded-full uppercase tracking-wide">
+                        <span className="inline-block bg-[#8E0EB9] text-white text-xs px-2 py-1 rounded-full uppercase tracking-wide">
                           {event.category}
                         </span>
                         {isEventPast(event) && (
@@ -189,7 +189,7 @@ const EventsPage: React.FC = () => {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEditEvent(event)}
-                          className="text-gray-600 hover:text-[#7B5CFF] transition-colors"
+                          className="text-gray-600 hover:text-[#8E0EB9] transition-colors"
                           title="Edit Event"
                         >
                           <Edit className="w-4 h-4" />

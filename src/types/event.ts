@@ -2,12 +2,12 @@ export interface Event {
   id: string;
   title: string;
   bannerUrl: string;
-  category: 'conference' | 'meetup' | 'hackathon' | 'workshop' | 'x-space';
+  category: "conference" | "meetup" | "hackathon" | "workshop" | "x-space";
   description: string;
   startDate: any;
   endDate: any;
   location: {
-    type: 'physical' | 'virtual';
+    type: "physical" | "virtual";
     details: string;
   };
   registrationLink: string;

@@ -16,6 +16,7 @@ import {
   Tag,
 } from "lucide-react";
 import MainLayout from "@/components/Layouts/MainLayout";
+import { useRouter } from "next/navigation";
 
 type LayoutType = "grid" | "list";
 type FilterType =
@@ -144,10 +145,14 @@ const EventsPage: React.FC = () => {
 
   const EventCard: React.FC<{ event: Event }> = ({ event }) => {
     const status = getEventStatus(event);
+    const router = useRouter();
 
     if (layout === "list") {
       return (
-        <div className="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+        <div
+          className="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+          onClick={() => router.push(`/events/${event.id}`)}
+        >
           <div className="flex">
             {/* Event Banner */}
             {event.bannerUrl && (
@@ -252,7 +257,10 @@ const EventsPage: React.FC = () => {
 
     // Grid layout
     return (
-      <div className=" rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+      <div
+        className=" rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+        onClick={() => router.push(`/events/${event.id}`)}
+      >
         {/* Event Banner */}
         {event.bannerUrl && (
           <div className="h-48 bg-gray-200 relative">

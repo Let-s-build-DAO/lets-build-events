@@ -13,71 +13,71 @@ import { FiExternalLink } from "react-icons/fi";
 import { getEventById } from "@/utils/eventService";
 
 // Dummy data for testing
-const getDummyEvent = (id: string): Event => ({
-  id: id,
-  title: `Tech Conference ${id}`,
-  bannerUrl: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678",
-  category: "conference",
-  description: `This is a detailed description for the Tech Conference ${id}. Join us for an exciting day of technology discussions, workshops, and networking opportunities with industry leaders. The event will cover the latest trends in web development, cloud computing, and artificial intelligence.`,
-  startDate:
-    id === "1" ? new Date(2024, 5, 15, 9, 0) : new Date(2023, 10, 15, 9, 0),
-  endDate:
-    id === "1" ? new Date(2024, 5, 15, 17, 0) : new Date(2023, 10, 15, 17, 0),
-  location: {
-    type: "physical",
-    details: "Convention Center, Port Harcourt",
-  },
-  registrationLink: "#register",
-  gallery: [
-    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30",
-    "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f",
-    "https://images.unsplash.com/photo-1556761175-b413da4baf72",
-  ],
-  albumUrl: "https://photos.app.goo.gl/example",
-  stats: {
-    attendees: 150,
-    engagement: 85,
-    feedback: "Excellent event with great speakers!",
-  },
-  tags: ["Technology", "Conference", "Networking"],
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  speakers: [
-    {
-      name: "Jane Smith",
-      title: "CTO at TechCorp",
-      imageUrl: "https://randomuser.me/api/portraits/women/44.jpg",
-    },
-    {
-      name: "John Doe",
-      title: "Lead Developer at InnovateCo",
-      imageUrl: "https://randomuser.me/api/portraits/men/32.jpg",
-    },
-  ],
-  agenda: [
-    {
-      time: "09:00 - 10:00",
-      title: "Registration & Breakfast",
-      description: "",
-    },
-    {
-      time: "10:00 - 10:30",
-      title: "Opening Keynote",
-      description: "The future of web technologies",
-    },
-    {
-      time: "10:30 - 12:00",
-      title: "Workshop Sessions",
-      description: "Choose between React, Angular or Vue deep dives",
-    },
-    { time: "12:00 - 13:30", title: "Lunch & Networking", description: "" },
-    {
-      time: "13:30 - 15:00",
-      title: "Panel Discussion",
-      description: "Industry leaders discuss emerging trends",
-    },
-  ],
-});
+// const getDummyEvent = (id: string): Event => ({
+//   id: id,
+//   title: `Tech Conference ${id}`,
+//   bannerUrl: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678",
+//   category: "conference",
+//   description: `This is a detailed description for the Tech Conference ${id}. Join us for an exciting day of technology discussions, workshops, and networking opportunities with industry leaders. The event will cover the latest trends in web development, cloud computing, and artificial intelligence.`,
+//   startDate:
+//     id === "1" ? new Date(2024, 5, 15, 9, 0) : new Date(2023, 10, 15, 9, 0),
+//   endDate:
+//     id === "1" ? new Date(2024, 5, 15, 17, 0) : new Date(2023, 10, 15, 17, 0),
+//   location: {
+//     type: "physical",
+//     details: "Convention Center, Port Harcourt",
+//   },
+//   registrationLink: "#register",
+//   gallery: [
+//     "https://images.unsplash.com/photo-1492684223066-81342ee5ff30",
+//     "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f",
+//     "https://images.unsplash.com/photo-1556761175-b413da4baf72",
+//   ],
+//   albumUrl: "https://photos.app.goo.gl/example",
+//   stats: {
+//     attendees: 150,
+//     engagement: 85,
+//     feedback: "Excellent event with great speakers!",
+//   },
+//   tags: ["Technology", "Conference", "Networking"],
+//   createdAt: new Date(),
+//   updatedAt: new Date(),
+//   speakers: [
+//     {
+//       name: "Jane Smith",
+//       title: "CTO at TechCorp",
+//       imageUrl: "https://randomuser.me/api/portraits/women/44.jpg",
+//     },
+//     {
+//       name: "John Doe",
+//       title: "Lead Developer at InnovateCo",
+//       imageUrl: "https://randomuser.me/api/portraits/men/32.jpg",
+//     },
+//   ],
+//   agenda: [
+//     {
+//       time: "09:00 - 10:00",
+//       title: "Registration & Breakfast",
+//       description: "",
+//     },
+//     {
+//       time: "10:00 - 10:30",
+//       title: "Opening Keynote",
+//       description: "The future of web technologies",
+//     },
+//     {
+//       time: "10:30 - 12:00",
+//       title: "Workshop Sessions",
+//       description: "Choose between React, Angular or Vue deep dives",
+//     },
+//     { time: "12:00 - 13:30", title: "Lunch & Networking", description: "" },
+//     {
+//       time: "13:30 - 15:00",
+//       title: "Panel Discussion",
+//       description: "Industry leaders discuss emerging trends",
+//     },
+//   ],
+// });
 
 // Helper function to format date and time
 const formatEventDate = (date: Date) => {
@@ -105,11 +105,13 @@ const EventPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchEvent = async () => {
       try {
         setLoading(true);
         if (id) {
           const eventData = await getEventById(id as string);
+          //   console.log(eventData);
           if (eventData) {
             setEvent(eventData);
           } else {
@@ -117,7 +119,7 @@ const EventPage = () => {
           }
         }
 
-        if (id) setEvent(getDummyEvent(id as string));
+        // if (id) setEvent(getDummyEvent(id as string));
       } catch (err) {
         console.error("Error fetching event:", err);
         setError("Failed to load event");
@@ -170,7 +172,7 @@ const EventPage = () => {
   return (
     <>
       <Head>
-        <title>{event.title} | Your Company Name</title>
+        <title>{event.title} | Let's Build DAO</title>
         <meta
           name="description"
           content={event.description.substring(0, 160)}
@@ -458,14 +460,14 @@ const EventPage = () => {
                   </div>
                 )}
 
-                <div className="mt-6 pt-4 border-t border-purple-200">
+                {/* <div className="mt-6 pt-4 border-t border-purple-200">
                   <p className="text-sm text-gray-500">
                     Created: {new Date(event.createdAt).toLocaleDateString()}
                   </p>
                   <p className="text-sm text-gray-500">
                     Updated: {new Date(event.updatedAt).toLocaleDateString()}
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

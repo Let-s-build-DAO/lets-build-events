@@ -46,10 +46,14 @@ export default function Home() {
         const upcoming = events.filter((event) => new Date(event.startDate) > new Date());
         const totalAttendees = events.reduce((sum, event) => {
           if (event.stats && Array.isArray(event.stats)) {
-            const attendeesStat = event.stats.find((stat: { title: string; value: string }) =>
-              stat.title.toLowerCase().includes("attendees")
+            const attendeesStat = event.stats.find(
+              (stat: { title: string; value: string } | any) =>
+                stat.title && stat.title.toLowerCase().includes("attendees")
+            ) as { title: string; value: string } | undefined;
+            return (
+              sum +
+              (attendeesStat ? Number(attendeesStat.value) || 0 : 0)
             );
-            return sum + (attendeesStat ? parseInt((attendeesStat as { title: string; value: string }).value, 10) || 0 : 0);
           }
           return sum;
         }, 0);

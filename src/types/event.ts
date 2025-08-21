@@ -13,11 +13,7 @@ export interface Event {
   registrationLink: string;
   gallery?: string[];
   albumUrl?: string; // URL to full photo album (Google Photos, Flickr, etc.)
-  stats?: {
-    attendees?: number;
-    engagement?: number;
-    feedback?: string;
-  };
+  stats?: [];
   tags: string[];
   createdAt: Date;
   updatedAt: Date;

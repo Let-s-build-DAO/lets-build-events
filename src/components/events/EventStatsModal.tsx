@@ -30,9 +30,9 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
 }) => {
   const [stats, setStats] = useState<DynamicStat[]>(
     event.stats
-      ? Object.entries(event.stats).map(([key, value]) => ({
+      ? Object.entries(event.stats).map(([key, value]: [string, unknown]) => ({
           title: key,
-          value: value.toString(),
+          value: String(value),
         }))
       : []
   );
@@ -66,7 +66,7 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
   };
 
   const addStat = () => {
-    setStats([...stats, { title: "", value: "" }]);
+    setStats([...stats, { title: "Total nunber of atendees", value: "" }]);
   };
 
   const removeStat = (index: number) => {

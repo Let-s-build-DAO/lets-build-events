@@ -124,7 +124,7 @@ export default function Home() {
                 Welcome to LBD Events
               </div>
               
-              <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+              <h1 className="text-4xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
                 Connect, Learn, and
                 <span className="block text-[#8E0EB9]">Build Together</span>
               </h1>
@@ -394,14 +394,14 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/events"
-                className="inline-flex items-center gap-2 bg-white text-[#8E0EB9] px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center justify-evenly gap-2 bg-white text-[#8E0EB9] px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                Explore All Events
+                <span>Explore All Events</span>
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-[#8E0EB9] transition-all duration-300"
+                className="inline-flex items-center justify-evenly gap-2 border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-[#8E0EB9] transition-all duration-300"
               >
                Join Our Community
                 <Sparkles className="w-5 h-5" />

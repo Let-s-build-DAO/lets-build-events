@@ -203,11 +203,16 @@ const EventsPage: React.FC = () => {
                       : "In-Person"}
                   </span>
                 </div>
-                {event.stats?.attendees && (
-                  <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4" />
-                    <span>{event.stats.attendees} attendees</span>
-                  </div>
+                {event.stats?.map(
+                  (stat, index) =>
+                    stat.title.toLowerCase().includes("attendee") && (
+                      <div key={index} className="flex items-center gap-2">
+                        <Users className="w-4 h-4" />
+                        <span>
+                          {stat.value} {stat.title}
+                        </span>
+                      </div>
+                    )
                 )}
               </div>
 
@@ -308,11 +313,16 @@ const EventsPage: React.FC = () => {
                 {event.location.type === "virtual" ? "Virtual" : "In-Person"}
               </span>
             </div>
-            {event.stats?.attendees && (
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4" />
-                <span>{event.stats.attendees} attendees</span>
-              </div>
+            {event.stats?.map(
+              (stat, index) =>
+                stat.title.toLowerCase().includes("attendee") && (
+                  <div key={index} className="flex items-center gap-2">
+                    <Users className="w-4 h-4" />
+                    <span>
+                      {stat.value} {stat.title}
+                    </span>
+                  </div>
+                )
             )}
           </div>
 

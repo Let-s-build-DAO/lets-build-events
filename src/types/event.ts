@@ -1,3 +1,8 @@
+interface stats {
+  title: string;
+  value: number;
+}
+
 export interface Event {
   id: string;
   title: string;
@@ -13,11 +18,7 @@ export interface Event {
   registrationLink: string;
   gallery?: string[];
   albumUrl?: string; // URL to full photo album (Google Photos, Flickr, etc.)
-  stats?: {
-    attendees?: number;
-    engagement?: number;
-    feedback?: string;
-  };
+  stats?: stats[];
   tags: string[];
   createdAt: Date;
   updatedAt: Date;

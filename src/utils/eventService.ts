@@ -154,6 +154,8 @@ export const getEventById = async (eventId: string): Promise<Event | null> => {
 
     if (eventSnap.exists()) {
       const data = eventSnap.data();
+      console.log("Stats ", data.stats);
+
       return {
         id: eventSnap.id,
         ...data,

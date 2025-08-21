@@ -12,6 +12,7 @@ import { FaMap } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import { getEventById } from "@/utils/eventService";
 import MainLayout from "@/components/Layouts/MainLayout";
+import ReactMarkdown from "react-markdown";
 
 // Dummy data for testing
 // const getDummyEvent = (id: string): Event => ({
@@ -188,7 +189,7 @@ const EventPage = () => {
 
       <MainLayout>
         <div className="min-h-screen bg-white">
-          <div className="relative h-[30rem] w-full overflow-hidden mt-4">
+          <div className="relative h-[30rem] w-full overflow-hidden">
             <img
               src={event.bannerUrl}
               alt={event.title}
@@ -232,9 +233,9 @@ const EventPage = () => {
                   <h2 className="text-2xl font-bold mb-6 pb-2 text-purple-900 border-b border-purple-100">
                     About the Event
                   </h2>
-                  <p className="text-gray-700 mb-6 leading-relaxed">
-                    {event.description}
-                  </p>
+                  <div className="text-gray-700 mb-6 leading-relaxed">
+                    <ReactMarkdown>{event.description}</ReactMarkdown>
+                  </div>
 
                   {!isUpcoming && event.stats && (
                     <div className="mb-8 bg-gray-50 p-4 rounded-lg">
@@ -242,24 +243,19 @@ const EventPage = () => {
                         Event Statistics
                       </h3>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                          <p className="text-3xl font-bold text-purple-800">
-                            {event.stats.attendees}
-                          </p>
-                          <p className="text-gray-600">Attendees</p>
-                        </div>
-                        <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                          <p className="text-3xl font-bold text-purple-800">
-                            {event.stats.engagement}%
-                          </p>
-                          <p className="text-gray-600">Engagement</p>
-                        </div>
-                        <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-                          <p className="text-lg font-bold text-purple-800">
-                            {event.stats.feedback}
-                          </p>
-                          <p className="text-gray-600">Feedback</p>
-                        </div>
+                        {event.stats?.map((stat, index) => (
+                          <div
+                            key={index}
+                            className="text-center p-4 bg-white rounded-lg shadow-sm"
+                          >
+                            <p className="text-3xl font-bold text-purple-800">
+                              {stat.title.toLowerCase() === "engagement"
+                                ? `${stat.value}%`
+                                : stat.value}
+                            </p>
+                            <p className="text-gray-600">{stat.title}</p>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}
@@ -402,7 +398,18 @@ const EventPage = () => {
                         {event.location.type} event
                       </p>
                       {event.location.type === "physical" && (
-                        <button className="text-purple-800 hover:text-purple-600 mt-1 text-sm flex items-center">
+                        <button
+                          onClick={() => {
+                            const encodedAddress = encodeURIComponent(
+                              event.location.details
+                            );
+                            window.open(
+                              `https://www.google.com/maps?q=${encodedAddress}`,
+                              "_blank"
+                            );
+                          }}
+                          className="text-purple-800 hover:text-purple-600 mt-1 text-sm flex items-center"
+                        >
                           <FaMap className="w-4 h-4 mr-1" />
                           View on map
                         </button>
@@ -437,13 +444,34 @@ const EventPage = () => {
                       Share This Event
                     </h4>
                     <div className="flex space-x-2">
-                      <button className="bg-purple-800 hover:bg-purple-700 text-white p-2 rounded-full">
+                      <button
+                        onClick={() =>
+                          window.open(
+                            `https://twitter.com/intent/tweet?url=${window.location.href}`
+                          )
+                        }
+                        className="bg-purple-800 hover:bg-purple-700 text-white p-2 rounded-full"
+                      >
                         <FaTwitter className="w-5 h-5" />
                       </button>
-                      <button className="bg-purple-800 hover:bg-purple-700 text-white p-2 rounded-full">
+                      <button
+                        onClick={() =>
+                          window.open(
+                            `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`
+                          )
+                        }
+                        className="bg-purple-800 hover:bg-purple-700 text-white p-2 rounded-full"
+                      >
                         <FaFacebook className="w-5 h-5" />
                       </button>
-                      <button className="bg-purple-800 hover:bg-purple-700 text-white p-2 rounded-full">
+                      <button
+                        onClick={() =>
+                          window.open(
+                            `https://www.instagram.com/?url=${window.location.href}`
+                          )
+                        }
+                        className="bg-purple-800 hover:bg-purple-700 text-white p-2 rounded-full"
+                      >
                         <FaInstagram className="w-5 h-5" />
                       </button>
                     </div>

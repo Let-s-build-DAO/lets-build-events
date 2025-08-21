@@ -34,7 +34,7 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
           title: key,
           value: String(value),
         }))
-      : []
+      : [{ title: "Total number of attendees", value: "" }]
   );
   const [imageUrls, setImageUrls] = useState<string[]>(event.gallery || []);
   const [albumUrl, setAlbumUrl] = useState(event.albumUrl || "");
@@ -66,7 +66,10 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
   };
 
   const addStat = () => {
-    setStats([...stats, { title: "Total nunber of atendees", value: "" }]);
+    setStats([
+      ...stats,
+      { title: stats.length === 0 ? "Total number of attendees" : "", value: "" },
+    ]);
   };
 
   const removeStat = (index: number) => {

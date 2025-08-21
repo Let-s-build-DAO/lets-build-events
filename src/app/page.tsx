@@ -115,7 +115,7 @@ export default function Home() {
     <MainLayout>
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <section className="relative overflow-hidden">
+        <section className="relative bg-white overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-[#7B5CFF]/5 to-blue-600/5"></div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div className="text-center">

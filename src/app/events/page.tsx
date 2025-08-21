@@ -175,12 +175,12 @@ const EventsPage: React.FC = () => {
                   <Clock className="w-4 h-4" />
                   <span>{event.location.type === 'virtual' ? 'Virtual' : 'In-Person'}</span>
                 </div>
-                {event.stats?.attendees && (
+                {/* {event.stats?.attendees && (
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4" />
                     <span>{event.stats.attendees} attendees</span>
                   </div>
-                )}
+                )} */}
               </div>
 
               {/* Description */}
@@ -270,12 +270,12 @@ const EventsPage: React.FC = () => {
               <Clock className="w-4 h-4" />
               <span>{event.location.type === 'virtual' ? 'Virtual' : 'In-Person'}</span>
             </div>
-            {event.stats?.attendees && (
+            {/* {event.stats?.attendees && (
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4" />
                 <span>{event.stats.attendees} attendees</span>
               </div>
-            )}
+            )} */}
           </div>
           
           {/* Tags */}

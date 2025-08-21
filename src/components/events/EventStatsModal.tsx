@@ -17,7 +17,7 @@ interface EventStatsModalProps {
   onClose: () => void;
   onSubmit: (
     eventId: string,
-    data: { stats: Event["stats"]; gallery: string[]; albumUrl?: string }
+    data: { stats: DynamicStat[]; gallery: string[]; albumUrl?: string }
   ) => Promise<void>;
   event: Event;
 }
@@ -28,36 +28,19 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
   onSubmit,
   event,
 }) => {
-  // Initialize with default stats or convert existing stats to dynamic format
-  const initializeStats = (): DynamicStat[] => {
-    if (event.stats) {
-      const stats: DynamicStat[] = [];
-      if (event.stats.attendees !== undefined) {
-        stats.push({
-          title: "Number of Attendees",
-          value: event.stats.attendees.toString(),
-        });
-      }
-      if (event.stats.engagement !== undefined) {
-        stats.push({
-          title: "Engagement Rate (%)",
-          value: event.stats.engagement.toString(),
-        });
-      }
-      if (event.stats.feedback) {
-        stats.push({ title: "Event Feedback", value: event.stats.feedback });
-      }
-      return stats.length > 0 ? stats : [{ title: "", value: "" }];
-    }
-    return [{ title: "", value: "" }];
-  };
-
-  const [stats, setStats] = useState<DynamicStat[]>(initializeStats());
+  const [stats, setStats] = useState<DynamicStat[]>(
+    event.stats
+      ? Object.entries(event.stats).map(([key, value]) => ({
+          title: key,
+          value: value.toString(),
+        }))
+      : []
+  );
   const [imageUrls, setImageUrls] = useState<string[]>(event.gallery || []);
   const [albumUrl, setAlbumUrl] = useState(event.albumUrl || "");
-  const [newImageUrl, setNewImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [newImageUrl, setNewImageUrl] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,25 +51,8 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
         (stat) => stat.title.trim() && stat.value.trim()
       );
 
-      // Convert dynamic stats to legacy format for compatibility
-      const legacyStats = {
-        attendees: 0,
-        engagement: 0,
-        feedback: "",
-      };
-
-      filteredStats.forEach((stat) => {
-        if (stat.title.toLowerCase().includes("attendee")) {
-          legacyStats.attendees = parseInt(stat.value) || 0;
-        } else if (stat.title.toLowerCase().includes("engagement")) {
-          legacyStats.engagement = parseFloat(stat.value) || 0;
-        } else if (stat.title.toLowerCase().includes("feedback")) {
-          legacyStats.feedback = stat.value;
-        }
-      });
-
       await onSubmit(event.id, {
-        stats: legacyStats,
+        stats: filteredStats,
         gallery: imageUrls,
         albumUrl: albumUrl.trim() || undefined,
       });
@@ -104,9 +70,7 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
   };
 
   const removeStat = (index: number) => {
-    if (stats.length > 1) {
-      setStats(stats.filter((_, i) => i !== index));
-    }
+    setStats(stats.filter((_, i) => i !== index));
   };
 
   const updateStat = (
@@ -283,7 +247,8 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
                   className="w-full p-2 border rounded"
                 />
                 <p className="text-sm text-gray-600 mt-1">
-                  Link to the complete photo album (Google Photos, Google Drive, Flickr, etc.) for users to view all photos
+                  Link to the complete photo album (Google Photos, Google Drive,
+                  Flickr, etc.) for users to view all photos
                 </p>
               </div>
 

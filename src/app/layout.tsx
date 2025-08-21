@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import MainLayout from "@/components/Layouts/MainLayout";
 
 export const metadata: Metadata = {
   title: "Events | Lets's Build DAO",
@@ -15,9 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <MainLayout>
-          <main className="mt-20">{children}</main>
-        </MainLayout>
+        <main className="">{children}</main>
       </body>
     </html>
   );

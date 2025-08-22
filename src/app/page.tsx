@@ -44,10 +44,19 @@ export default function Home() {
 
         // Calculate stats - keep upcoming events count for stats
         const upcoming = events.filter((event) => new Date(event.startDate) > new Date());
-        const totalAttendees = events.reduce(
-          (sum, event) => sum + (event.stats?.attendees || 0),
-          0
-        );
+        const totalAttendees = events.reduce((sum, event) => {
+          if (event.stats && Array.isArray(event.stats)) {
+            const attendeesStat = event.stats.find(
+              (stat: { title: string; value: string } | any) =>
+                stat.title && stat.title.toLowerCase().includes("attendees")
+            ) as { title: string; value: string } | undefined;
+            return (
+              sum +
+              (attendeesStat ? Number(attendeesStat.value) || 0 : 0)
+            );
+          }
+          return sum;
+        }, 0);
         setStats({
           totalEvents: events.length,
           totalAttendees,

@@ -29,12 +29,9 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
   event,
 }) => {
   const [stats, setStats] = useState<DynamicStat[]>(
-    event.stats
-      ? Object.entries(event.stats).map(([key, value]) => ({
-          title: key,
-          value: value.toString(),
-        }))
-      : []
+    event.stats && Array.isArray(event.stats) && event.stats.length > 0
+      ? event.stats
+      : [{ title: "Total number of attendees", value: "" }]
   );
   const [imageUrls, setImageUrls] = useState<string[]>(event.gallery || []);
   const [albumUrl, setAlbumUrl] = useState(event.albumUrl || "");
@@ -66,11 +63,16 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
   };
 
   const addStat = () => {
-    setStats([...stats, { title: "", value: "" }]);
+    setStats([
+      ...stats,
+      { title: "", value: "" },
+    ]);
   };
 
   const removeStat = (index: number) => {
-    setStats(stats.filter((_, i) => i !== index));
+    if (stats.length > 1) {
+      setStats(stats.filter((_, i) => i !== index));
+    }
   };
 
   const updateStat = (

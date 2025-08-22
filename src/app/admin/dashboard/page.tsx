@@ -49,7 +49,7 @@ const EventsPage: React.FC = () => {
     setIsStatsModalOpen(true);
   };
 
-  const handleStatsSubmit = async (eventId: string, data: { stats: Event['stats'], gallery: string[], albumUrl?: string }) => {
+  const handleStatsSubmit = async (eventId: string, data: { stats: [], gallery: string[], albumUrl?: string }) => {
     try {
       await updateEventStats(eventId, data.stats, data.gallery, data.albumUrl);
       await loadEvents(); // Refresh the list
@@ -228,12 +228,12 @@ const EventsPage: React.FC = () => {
                           {event.location.details}
                         </span>
                       </div>
-                      {event.stats?.attendees && (
+                      {/* {event.stats?.attendees && (
                         <div className="flex items-center gap-2">
                           <Users className="w-4 h-4" />
                           <span>{event.stats.attendees} attendees</span>
                         </div>
-                      )}
+                      )} */}
                     </div>
 
                     {/* Tags */}
@@ -270,14 +270,14 @@ const EventsPage: React.FC = () => {
           />
 
           {/* Event Stats Modal */}
-          {statsEvent && (
+            {statsEvent && (
             <EventStatsModal
               isOpen={isStatsModalOpen}
               onClose={handleStatsModalClose}
-              onSubmit={handleStatsSubmit}
+              onSubmit={(eventId, data) => handleStatsSubmit(eventId, { ...data, stats: data.stats as [] })}
               event={statsEvent}
             />
-          )}
+            )}
         </div>
       </div>
     </DashboardLayout>

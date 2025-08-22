@@ -352,19 +352,19 @@ const EventPage = () => {
                           </div>
                         ))}
                       </div>
-                      {event.albumUrl && (
-                        <div className="mt-4 text-center">
-                          <a
-                            href={event.albumUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center text-purple-800 hover:text-purple-600"
-                          >
-                            View full photo album
-                            <FiExternalLink className="w-4 h-4 ml-1" />
-                          </a>
-                        </div>
-                      )}
+                    </div>
+                  )}
+                  {event.albumUrl && (
+                    <div className="mt-4 text-center">
+                      <a
+                        href={event.albumUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-purple-800 hover:text-purple-600"
+                      >
+                        View full photo album
+                        <FiExternalLink className="w-4 h-4 ml-1" />
+                      </a>
                     </div>
                   )}
                 </div>

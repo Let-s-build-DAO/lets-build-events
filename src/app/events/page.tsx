@@ -3,32 +3,39 @@
 import React, { useState, useEffect } from "react";
 import { Event } from "@/types/event";
 import { getAllEvents, getEventsByCategory } from "@/utils/eventService";
-import { 
-  Calendar, 
-  MapPin, 
-  Users, 
-  Search, 
-  Filter, 
-  Grid3X3, 
-  List, 
+import {
+  Calendar,
+  MapPin,
+  Users,
+  Search,
+  Filter,
+  Grid3X3,
+  List,
   Clock,
   ExternalLink,
-  Tag
+  Tag,
 } from "lucide-react";
 import MainLayout from "@/components/Layouts/MainLayout";
+import { useRouter } from "next/navigation";
 
-type LayoutType = 'grid' | 'list';
-type FilterType = 'all' | 'conference' | 'meetup' | 'hackathon' | 'workshop' | 'x-space';
-type TimeFilter = 'all' | 'upcoming' | 'past';
+type LayoutType = "grid" | "list";
+type FilterType =
+  | "all"
+  | "conference"
+  | "meetup"
+  | "hackathon"
+  | "workshop"
+  | "x-space";
+type TimeFilter = "all" | "upcoming" | "past";
 
 const EventsPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState<FilterType>('all');
-  const [timeFilter, setTimeFilter] = useState<TimeFilter>('all');
-  const [layout, setLayout] = useState<LayoutType>('grid');
+  const [categoryFilter, setCategoryFilter] = useState<FilterType>("all");
+  const [timeFilter, setTimeFilter] = useState<TimeFilter>("all");
+  const [layout, setLayout] = useState<LayoutType>("grid");
   const [showFilters, setShowFilters] = useState(false);
 
   // Load events on component mount
@@ -59,25 +66,26 @@ const EventsPage: React.FC = () => {
     // Apply search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(event => 
-        event.title.toLowerCase().includes(query) ||
-        event.description.toLowerCase().includes(query) ||
-        event.location.details.toLowerCase().includes(query) ||
-        event.tags.some(tag => tag.toLowerCase().includes(query))
+      filtered = filtered.filter(
+        (event) =>
+          event.title.toLowerCase().includes(query) ||
+          event.description.toLowerCase().includes(query) ||
+          event.location.details.toLowerCase().includes(query) ||
+          event.tags.some((tag) => tag.toLowerCase().includes(query))
       );
     }
 
     // Apply category filter
-    if (categoryFilter !== 'all') {
-      filtered = filtered.filter(event => event.category === categoryFilter);
+    if (categoryFilter !== "all") {
+      filtered = filtered.filter((event) => event.category === categoryFilter);
     }
 
     // Apply time filter
     const now = new Date();
-    if (timeFilter === 'upcoming') {
-      filtered = filtered.filter(event => event.startDate > now);
-    } else if (timeFilter === 'past') {
-      filtered = filtered.filter(event => event.endDate < now);
+    if (timeFilter === "upcoming") {
+      filtered = filtered.filter((event) => event.startDate > now);
+    } else if (timeFilter === "past") {
+      filtered = filtered.filter((event) => event.endDate < now);
     }
 
     setFilteredEvents(filtered);
@@ -104,35 +112,47 @@ const EventsPage: React.FC = () => {
   };
 
   const getEventStatus = (event: Event) => {
-    if (isEventLive(event)) return 'live';
-    if (isEventUpcoming(event)) return 'upcoming';
-    return 'past';
+    if (isEventLive(event)) return "live";
+    if (isEventUpcoming(event)) return "upcoming";
+    return "past";
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'live': return 'bg-green-500';
-      case 'upcoming': return 'bg-blue-500';
-      case 'past': return 'bg-gray-500';
-      default: return 'bg-gray-500';
+      case "live":
+        return "bg-green-500";
+      case "upcoming":
+        return "bg-blue-500";
+      case "past":
+        return "bg-gray-500";
+      default:
+        return "bg-gray-500";
     }
   };
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'live': return 'Live Now';
-      case 'upcoming': return 'Upcoming';
-      case 'past': return 'Past Event';
-      default: return 'Event';
+      case "live":
+        return "Live Now";
+      case "upcoming":
+        return "Upcoming";
+      case "past":
+        return "Past Event";
+      default:
+        return "Event";
     }
   };
 
   const EventCard: React.FC<{ event: Event }> = ({ event }) => {
     const status = getEventStatus(event);
-    
-    if (layout === 'list') {
+    const router = useRouter();
+
+    if (layout === "list") {
       return (
-        <div className="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+        <div
+          className="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+          onClick={() => router.push(`/events/${event.id}`)}
+        >
           <div className="flex">
             {/* Event Banner */}
             {event.bannerUrl && (
@@ -144,7 +164,7 @@ const EventsPage: React.FC = () => {
                 />
               </div>
             )}
-            
+
             {/* Event Content */}
             <div className="flex-1 p-6">
               <div className="flex justify-between items-start mb-3">
@@ -152,16 +172,20 @@ const EventsPage: React.FC = () => {
                   <span className="inline-block bg-[#8E0EB9] text-white text-xs px-2 py-1 rounded-full uppercase tracking-wide">
                     {event.category}
                   </span>
-                  <span className={`inline-block text-white text-xs px-2 py-1 rounded-full ${getStatusColor(status)}`}>
+                  <span
+                    className={`inline-block text-white text-xs px-2 py-1 rounded-full ${getStatusColor(
+                      status
+                    )}`}
+                  >
                     {getStatusText(status)}
                   </span>
                 </div>
               </div>
-              
+
               <h3 className="text-xl font-semibold text-gray-900 mb-3">
                 {event.title}
               </h3>
-              
+
               <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-4">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
@@ -173,21 +197,31 @@ const EventsPage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4" />
-                  <span>{event.location.type === 'virtual' ? 'Virtual' : 'In-Person'}</span>
+                  <span>
+                    {event.location.type === "virtual"
+                      ? "Virtual"
+                      : "In-Person"}
+                  </span>
                 </div>
-                {/* {event.stats?.attendees && (
-                  <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4" />
-                    <span>{event.stats.attendees} attendees</span>
-                  </div>
-                )} */}
+                {event.stats?.map(
+                  (stat, index) =>
+                    stat.title.toLowerCase().includes("attendee") && (
+                      <div key={index} className="flex items-center gap-2">
+                        <Users className="w-4 h-4" />
+                        <span>
+                          {stat.value} {stat.title}
+                        </span>
+                      </div>
+                    )
+                )}
               </div>
 
               {/* Description */}
               <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                {event.description?.replace(/[#*`]/g, '') || 'No description available'}
+                {event.description?.replace(/[#*`]/g, "") ||
+                  "No description available"}
               </p>
-              
+
               {/* Tags */}
               {event.tags && event.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1 mb-4">
@@ -228,7 +262,10 @@ const EventsPage: React.FC = () => {
 
     // Grid layout
     return (
-      <div className=" rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+      <div
+        className=" rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+        onClick={() => router.push(`/events/${event.id}`)}
+      >
         {/* Event Banner */}
         {event.bannerUrl && (
           <div className="h-48 bg-gray-200 relative">
@@ -238,13 +275,17 @@ const EventsPage: React.FC = () => {
               className="w-full h-full object-cover"
             />
             <div className="absolute top-3 right-3">
-              <span className={`inline-block text-white text-xs px-2 py-1 rounded-full ${getStatusColor(status)}`}>
+              <span
+                className={`inline-block text-white text-xs px-2 py-1 rounded-full ${getStatusColor(
+                  status
+                )}`}
+              >
                 {getStatusText(status)}
               </span>
             </div>
           </div>
         )}
-        
+
         {/* Event Content */}
         <div className="p-6">
           <div className="flex justify-between items-start mb-3">
@@ -252,11 +293,11 @@ const EventsPage: React.FC = () => {
               {event.category}
             </span>
           </div>
-          
+
           <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
             {event.title}
           </h3>
-          
+
           <div className="space-y-2 text-sm text-gray-600 mb-4">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
@@ -268,16 +309,23 @@ const EventsPage: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
-              <span>{event.location.type === 'virtual' ? 'Virtual' : 'In-Person'}</span>
+              <span>
+                {event.location.type === "virtual" ? "Virtual" : "In-Person"}
+              </span>
             </div>
-            {/* {event.stats?.attendees && (
-              <div className="flex items-center gap-2">
-                <Users className="w-4 h-4" />
-                <span>{event.stats.attendees} attendees</span>
-              </div>
-            )} */}
+            {event.stats?.map(
+              (stat, index) =>
+                stat.title.toLowerCase().includes("attendee") && (
+                  <div key={index} className="flex items-center gap-2">
+                    <Users className="w-4 h-4" />
+                    <span>
+                      {stat.value} {stat.title}
+                    </span>
+                  </div>
+                )
+            )}
           </div>
-          
+
           {/* Tags */}
           {event.tags && event.tags.length > 0 && (
             <div className="flex flex-wrap gap-1 mb-4">
@@ -328,152 +376,167 @@ const EventsPage: React.FC = () => {
   }
 
   return (
-    <MainLayout>
-      <div className="mt-20 ">
-        <div className="container mx-auto px-4 py-8">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              Discover Events
-            </h1>
-            <p className="text-gray-600 text-lg">
-              Join amazing events and connect with the community
-            </p>
-          </div>
+    <div className="">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            Discover Events
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Join amazing events and connect with the community
+          </p>
+        </div>
 
-          {/* Search and Filters */}
-          <div className="rounded-lg shadow-sm p-6 mb-8">
-            <div className="flex flex-col lg:flex-row gap-4">
-              {/* Search */}
-              <div className="flex-1">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="text"
-                    placeholder="Search events by title, description, location, or tags..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
-                  />
-                </div>
+        {/* Search and Filters */}
+        <div className="rounded-lg shadow-sm p-6 mb-8">
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Search */}
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Search events by title, description, location, or tags..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
+                />
               </div>
+            </div>
 
-              {/* Layout Toggle */}
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setLayout('grid')}
-                  className={`p-2 rounded-lg ${layout === 'grid' ? 'bg-[#8E0EB9] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
-                >
-                  <Grid3X3 className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => setLayout('list')}
-                  className={`p-2 rounded-lg ${layout === 'list' ? 'bg-[#8E0EB9] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
-                >
-                  <List className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Filter Toggle */}
+            {/* Layout Toggle */}
+            <div className="flex items-center gap-2">
               <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                onClick={() => setLayout("grid")}
+                className={`p-2 rounded-lg ${
+                  layout === "grid"
+                    ? "bg-[#8E0EB9] text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
               >
-                <Filter className="w-5 h-5" />
-                Filters
+                <Grid3X3 className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setLayout("list")}
+                className={`p-2 rounded-lg ${
+                  layout === "list"
+                    ? "bg-[#8E0EB9] text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                <List className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Expanded Filters */}
-            {showFilters && (
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Category Filter */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Category
-                    </label>
-                    <select
-                      value={categoryFilter}
-                      onChange={(e) => setCategoryFilter(e.target.value as FilterType)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
-                    >
-                      <option value="all">All Categories</option>
-                      <option value="conference">Conference</option>
-                      <option value="meetup">Meetup</option>
-                      <option value="hackathon">Hackathon</option>
-                      <option value="workshop">Workshop</option>
-                      <option value="x-space">X Space</option>
-                    </select>
-                  </div>
+            {/* Filter Toggle */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+            >
+              <Filter className="w-5 h-5" />
+              Filters
+            </button>
+          </div>
 
-                  {/* Time Filter */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Time
-                    </label>
-                    <select
-                      value={timeFilter}
-                      onChange={(e) => setTimeFilter(e.target.value as TimeFilter)}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
-                    >
-                      <option value="all">All Events</option>
-                      <option value="upcoming">Upcoming</option>
-                      <option value="past">Past Events</option>
-                    </select>
-                  </div>
+          {/* Expanded Filters */}
+          {showFilters && (
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Category Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Category
+                  </label>
+                  <select
+                    value={categoryFilter}
+                    onChange={(e) =>
+                      setCategoryFilter(e.target.value as FilterType)
+                    }
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
+                  >
+                    <option value="all">All Categories</option>
+                    <option value="conference">Conference</option>
+                    <option value="meetup">Meetup</option>
+                    <option value="hackathon">Hackathon</option>
+                    <option value="workshop">Workshop</option>
+                    <option value="x-space">X Space</option>
+                  </select>
+                </div>
+
+                {/* Time Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Time
+                  </label>
+                  <select
+                    value={timeFilter}
+                    onChange={(e) =>
+                      setTimeFilter(e.target.value as TimeFilter)
+                    }
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
+                  >
+                    <option value="all">All Events</option>
+                    <option value="upcoming">Upcoming</option>
+                    <option value="past">Past Events</option>
+                  </select>
                 </div>
               </div>
-            )}
-          </div>
-
-          {/* Results Summary */}
-          <div className="flex justify-between items-center mb-6">
-            <p className="text-gray-600">
-              {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''} found
-              {searchQuery && ` for "${searchQuery}"`}
-            </p>
-            {(searchQuery || categoryFilter !== 'all' || timeFilter !== 'all') && (
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setCategoryFilter('all');
-                  setTimeFilter('all');
-                }}
-                className="text-[#8E0EB9] hover:text-[#6B4AEF] text-sm"
-              >
-                Clear all filters
-              </button>
-            )}
-          </div>
-
-          {/* Events Grid/List */}
-          {filteredEvents.length === 0 ? (
-            <div className="text-center py-12">
-              <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                No events found
-              </h3>
-              <p className="text-gray-600 mb-6">
-                {searchQuery || categoryFilter !== 'all' || timeFilter !== 'all'
-                  ? "Try adjusting your search or filters"
-                  : "Check back later for upcoming events"}
-              </p>
-            </div>
-          ) : (
-            <div className={
-              layout === 'grid' 
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                : "space-y-6"
-            }>
-              {filteredEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
             </div>
           )}
         </div>
+
+        {/* Results Summary */}
+        <div className="flex justify-between items-center mb-6">
+          <p className="text-gray-600">
+            {filteredEvents.length} event
+            {filteredEvents.length !== 1 ? "s" : ""} found
+            {searchQuery && ` for "${searchQuery}"`}
+          </p>
+          {(searchQuery ||
+            categoryFilter !== "all" ||
+            timeFilter !== "all") && (
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setCategoryFilter("all");
+                setTimeFilter("all");
+              }}
+              className="text-[#8E0EB9] hover:text-[#6B4AEF] text-sm"
+            >
+              Clear all filters
+            </button>
+          )}
+        </div>
+
+        {/* Events Grid/List */}
+        {filteredEvents.length === 0 ? (
+          <div className="text-center py-12">
+            <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              No events found
+            </h3>
+            <p className="text-gray-600 mb-6">
+              {searchQuery || categoryFilter !== "all" || timeFilter !== "all"
+                ? "Try adjusting your search or filters"
+                : "Check back later for upcoming events"}
+            </p>
+          </div>
+        ) : (
+          <div
+            className={
+              layout === "grid"
+                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                : "space-y-6"
+            }
+          >
+            {filteredEvents.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
+          </div>
+        )}
       </div>
-    </MainLayout>
+    </div>
   );
 };
 

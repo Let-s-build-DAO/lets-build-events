@@ -376,167 +376,169 @@ const EventsPage: React.FC = () => {
   }
 
   return (
-    <div className="">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Discover Events
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Join amazing events and connect with the community
-          </p>
-        </div>
-
-        {/* Search and Filters */}
-        <div className="rounded-lg shadow-sm p-6 mb-8">
-          <div className="flex flex-col lg:flex-row gap-4">
-            {/* Search */}
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  type="text"
-                  placeholder="Search events by title, description, location, or tags..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            {/* Layout Toggle */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setLayout("grid")}
-                className={`p-2 rounded-lg ${
-                  layout === "grid"
-                    ? "bg-[#8E0EB9] text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                <Grid3X3 className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setLayout("list")}
-                className={`p-2 rounded-lg ${
-                  layout === "list"
-                    ? "bg-[#8E0EB9] text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                <List className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Filter Toggle */}
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              <Filter className="w-5 h-5" />
-              Filters
-            </button>
-          </div>
-
-          {/* Expanded Filters */}
-          {showFilters && (
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Category Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Category
-                  </label>
-                  <select
-                    value={categoryFilter}
-                    onChange={(e) =>
-                      setCategoryFilter(e.target.value as FilterType)
-                    }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
-                  >
-                    <option value="all">All Categories</option>
-                    <option value="conference">Conference</option>
-                    <option value="meetup">Meetup</option>
-                    <option value="hackathon">Hackathon</option>
-                    <option value="workshop">Workshop</option>
-                    <option value="x-space">X Space</option>
-                  </select>
-                </div>
-
-                {/* Time Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Time
-                  </label>
-                  <select
-                    value={timeFilter}
-                    onChange={(e) =>
-                      setTimeFilter(e.target.value as TimeFilter)
-                    }
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
-                  >
-                    <option value="all">All Events</option>
-                    <option value="upcoming">Upcoming</option>
-                    <option value="past">Past Events</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Results Summary */}
-        <div className="flex justify-between items-center mb-6">
-          <p className="text-gray-600">
-            {filteredEvents.length} event
-            {filteredEvents.length !== 1 ? "s" : ""} found
-            {searchQuery && ` for "${searchQuery}"`}
-          </p>
-          {(searchQuery ||
-            categoryFilter !== "all" ||
-            timeFilter !== "all") && (
-            <button
-              onClick={() => {
-                setSearchQuery("");
-                setCategoryFilter("all");
-                setTimeFilter("all");
-              }}
-              className="text-[#8E0EB9] hover:text-[#6B4AEF] text-sm"
-            >
-              Clear all filters
-            </button>
-          )}
-        </div>
-
-        {/* Events Grid/List */}
-        {filteredEvents.length === 0 ? (
-          <div className="text-center py-12">
-            <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No events found
-            </h3>
-            <p className="text-gray-600 mb-6">
-              {searchQuery || categoryFilter !== "all" || timeFilter !== "all"
-                ? "Try adjusting your search or filters"
-                : "Check back later for upcoming events"}
+    <MainLayout>
+      <div className="">
+        <div className="container mx-auto px-4 py-8">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              Discover Events
+            </h1>
+            <p className="text-gray-600 text-lg">
+              Join amazing events and connect with the community
             </p>
           </div>
-        ) : (
-          <div
-            className={
-              layout === "grid"
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                : "space-y-6"
-            }
-          >
-            {filteredEvents.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
+
+          {/* Search and Filters */}
+          <div className="rounded-lg shadow-sm p-6 mb-8">
+            <div className="flex flex-col lg:flex-row gap-4">
+              {/* Search */}
+              <div className="flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    placeholder="Search events by title, description, location, or tags..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              {/* Layout Toggle */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setLayout("grid")}
+                  className={`p-2 rounded-lg ${
+                    layout === "grid"
+                      ? "bg-[#8E0EB9] text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  <Grid3X3 className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setLayout("list")}
+                  className={`p-2 rounded-lg ${
+                    layout === "list"
+                      ? "bg-[#8E0EB9] text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  <List className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Filter Toggle */}
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                <Filter className="w-5 h-5" />
+                Filters
+              </button>
+            </div>
+
+            {/* Expanded Filters */}
+            {showFilters && (
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Category Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Category
+                    </label>
+                    <select
+                      value={categoryFilter}
+                      onChange={(e) =>
+                        setCategoryFilter(e.target.value as FilterType)
+                      }
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
+                    >
+                      <option value="all">All Categories</option>
+                      <option value="conference">Conference</option>
+                      <option value="meetup">Meetup</option>
+                      <option value="hackathon">Hackathon</option>
+                      <option value="workshop">Workshop</option>
+                      <option value="x-space">X Space</option>
+                    </select>
+                  </div>
+
+                  {/* Time Filter */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Time
+                    </label>
+                    <select
+                      value={timeFilter}
+                      onChange={(e) =>
+                        setTimeFilter(e.target.value as TimeFilter)
+                      }
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8E0EB9] focus:border-transparent"
+                    >
+                      <option value="all">All Events</option>
+                      <option value="upcoming">Upcoming</option>
+                      <option value="past">Past Events</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+
+          {/* Results Summary */}
+          <div className="flex justify-between items-center mb-6">
+            <p className="text-gray-600">
+              {filteredEvents.length} event
+              {filteredEvents.length !== 1 ? "s" : ""} found
+              {searchQuery && ` for "${searchQuery}"`}
+            </p>
+            {(searchQuery ||
+              categoryFilter !== "all" ||
+              timeFilter !== "all") && (
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setCategoryFilter("all");
+                  setTimeFilter("all");
+                }}
+                className="text-[#8E0EB9] hover:text-[#6B4AEF] text-sm"
+              >
+                Clear all filters
+              </button>
+            )}
+          </div>
+
+          {/* Events Grid/List */}
+          {filteredEvents.length === 0 ? (
+            <div className="text-center py-12">
+              <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No events found
+              </h3>
+              <p className="text-gray-600 mb-6">
+                {searchQuery || categoryFilter !== "all" || timeFilter !== "all"
+                  ? "Try adjusting your search or filters"
+                  : "Check back later for upcoming events"}
+              </p>
+            </div>
+          ) : (
+            <div
+              className={
+                layout === "grid"
+                  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                  : "space-y-6"
+              }
+            >
+              {filteredEvents.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </MainLayout>
   );
 };
 

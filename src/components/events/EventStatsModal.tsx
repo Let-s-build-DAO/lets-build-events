@@ -30,7 +30,10 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
 }) => {
   const [stats, setStats] = useState<DynamicStat[]>(
     event.stats && Array.isArray(event.stats) && event.stats.length > 0
-      ? event.stats
+      ? event.stats.map((stat: any) => ({
+          title: stat.title,
+          value: String(stat.value),
+        }))
       : [{ title: "Total number of attendees", value: "" }]
   );
   const [imageUrls, setImageUrls] = useState<string[]>(event.gallery || []);

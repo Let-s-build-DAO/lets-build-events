@@ -15,7 +15,7 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
         className="fixed inset-0 bg-black/50"
         onClick={onClose}
       />
-      <div className="relative z-50 w-full max-w-md bg-white rounded-lg shadow-xl p-6">
+      <div className="relative z-50 w-full max-w-3xl bg-white rounded-lg shadow-xl p-6">
         {children}
       </div>
     </div>

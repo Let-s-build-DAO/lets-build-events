@@ -120,7 +120,7 @@ const EventsPage: React.FC = () => {
       <div className="min-h-screen">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
-          <div className="flex justify-between items-center mb-8">
+          <div className="lg:flex justify-between items-center mb-8">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
                 Events Management

@@ -316,7 +316,7 @@ export default function Home() {
                               href={event.albumUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-blue-700 transition-all duration-300 group"
+                              className="inline-flex items-center gap-2 bg-[#8E0EB9] text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 group"
                             >
                               View Photos
                               <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

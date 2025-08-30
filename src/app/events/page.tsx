@@ -160,7 +160,7 @@ const EventsPage: React.FC = () => {
                 <img
                   src={event.bannerUrl}
                   alt={event.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-96 object-cover"
                 />
               </div>
             )}
@@ -243,7 +243,7 @@ const EventsPage: React.FC = () => {
               )}
 
               {/* Registration Button */}
-              {isEventUpcoming(event) && (
+              {isEventUpcoming(event) ? (
                 <a
                   href={event.registrationLink}
                   target="_blank"
@@ -253,6 +253,30 @@ const EventsPage: React.FC = () => {
                   Register Now
                   <ExternalLink className="w-4 h-4" />
                 </a>
+              ) : getEventStatus(event) === "past" && event.albumUrl ? (
+                <a
+                  href={event.albumUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-[#8E0EB9] text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 group"
+                >
+                  View Photos
+                  <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+              ) : isEventLive(event) ? (
+                <a
+                  href={event.registrationLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-green-700 transition-all duration-300 group"
+                >
+                  Join Now
+                  <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+              ) : (
+                <span className="inline-flex items-center gap-2 bg-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-semibold">
+                  Event Ended
+                </span>
               )}
             </div>
           </div>
@@ -346,16 +370,40 @@ const EventsPage: React.FC = () => {
           )}
 
           {/* Registration Button */}
-          {isEventUpcoming(event) && (
+          {isEventUpcoming(event) ? (
             <a
               href={event.registrationLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#8E0EB9] text-white px-4 py-2 rounded-full hover:bg-[#6B4AEF] transition-colors text-sm"
+              className="inline-flex items-center gap-2 bg-[#8E0EB9] text-white px-4 py-2 rounded-full hover:bg-[#6B4AEF] transition-colors text-sm"
             >
               Register Now
               <ExternalLink className="w-4 h-4" />
             </a>
+          ) : getEventStatus(event) === "past" && event.albumUrl ? (
+            <a
+              href={event.albumUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#8E0EB9] text-white px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 group"
+            >
+              View Photos
+              <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
+          ) : isEventLive(event) ? (
+            <a
+              href={event.registrationLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-green-700 transition-all duration-300 group"
+            >
+              Join Now
+              <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
+          ) : (
+            <span className="inline-flex items-center gap-2 bg-gray-300 text-gray-600 px-4 py-2 rounded-full text-sm font-semibold">
+              Event Ended
+            </span>
           )}
         </div>
       </div>

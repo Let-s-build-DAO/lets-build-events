@@ -141,8 +141,8 @@ export default function Home() {
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
         <section className="relative bg-white overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#7B5CFF]/5 to-blue-600/5"></div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="absolute inset-0 bg-gray-100"></div>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
             <div className="text-center">
               <div className="inline-flex items-center gap-2 bg-[#8E0EB9]/10 text-[#8E0EB9] px-4 py-2 rounded-full text-sm font-medium mb-6">
                 <Sparkles className="w-4 h-4" />
@@ -169,7 +169,7 @@ export default function Home() {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link
-                  href="#community"
+                  href="https://bit.ly/47JnyCV"
                   className="inline-flex items-center gap-2 border-2 border-[#8E0EB9] text-[#8E0EB9] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#8E0EB9] hover:text-white transition-all duration-300"
                 >
                   <UserPlus className="w-5 h-5" />

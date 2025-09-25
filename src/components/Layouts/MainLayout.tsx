@@ -8,7 +8,10 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    logPageEvent("page_view", { page: pathname });
+    if (pathname) {
+      logPageEvent("page_view", { page: pathname });
+      // console.log(`Logged page view for: ${pathname}`);
+    }
   }, [pathname]);
 
   return (

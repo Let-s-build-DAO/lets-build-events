@@ -4,11 +4,11 @@ import "./globals.css";
 
 
 export const metadata = {
-  title: "Let's Build Events | Discover Web3, Blockchain & DAO Gatherings",
+  title: "Let's Build Labs Events | Discover Web3, Blockchain & DAO Gatherings",
   description:
-    "Join Let's Build Events to explore Web3, Blockchain, and DAO-focused gatherings. Stay updated with curated events, workshops, and networking opportunities.",
+    "Join Let's Build Labs Events to explore Web3, Blockchain, and DAO-focused gatherings. Stay updated with curated events, workshops, and networking opportunities.",
   keywords: [
-    "Let's Build Events",
+    "Let's Build Labs Events",
     "Web3 events",
     "blockchain meetups",
     "DAO gatherings",
